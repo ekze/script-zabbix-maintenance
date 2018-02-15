@@ -5,7 +5,7 @@ import json, sys, requests, time
 proxies = {'http': None,'https': None}
 # Global variables for requests
 headers = {'Content-Type': 'application/json-rpc'}
-zabbix_host = 'zbx.spb.play.dc'
+zabbix_host = 'zabbix.local'
 base_url = 'http://' + zabbix_host + '/api_jsonrpc.php'
 
 # Get user
@@ -40,7 +40,7 @@ def request(type, auth, name = None, uid = None, user = user, password = passwor
         data = json.loads('{ "jsonrpc": "2.0", "method": "host.get", "params": { }, "auth": "NULL", "id": 1 }')
     if type == 'create':
         data = json.loads('{"jsonrpc":"2.0","method":"maintenance.create","params":{"name":"NULL","active_since":0,"active_till":0,"hostids":[],"timeperiods":[{"timeperiod_type":0,"start_time":0,"period":5184000}]},"auth":"NULL","id":1}')
-        data['params']['active_since'] = str(int(time.time()))
+        data['params']['active_since'] = str(int(time.time()) - 3600)
         data['params']['active_till'] = str(int(time.time()) + 31536000)
         data['params']['hostids'].append(uid)
         data['params']['name'] = 'automatic_' + name
